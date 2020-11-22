@@ -1,0 +1,26 @@
+const commands = {
+    setLedBundle: {
+      code: 'SET_LED_BUNDLE',
+      handle: (values) => {},
+      compose: (values) => {
+        return `SET_LED_BUNDLE[${values.join('][')}]`;
+      },
+    },
+    setLed: {
+      code: 'SET_LED',
+      handle: () => {},
+      compose: (ledIndex) => {
+        return `SET_LED[${ledIndex}]`;
+      },
+    },
+    getLed: {
+      code: 'GET_LED',
+      handle: () => {},
+      compose: () => {},
+    },
+    getLedBundle: {
+      code: 'GET_LED_BUNDLE',
+      handle: () => {},
+      compose: () => {},
+    },
+  };
