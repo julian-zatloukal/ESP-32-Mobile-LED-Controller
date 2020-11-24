@@ -35,13 +35,13 @@ function init() {
 function wsConnect(url) {
     
     // Connect to WebSocket server
-    websocket = new WebSocket(url);
+    // websocket = new WebSocket(url);
     
-    // Assign callbacks
-    websocket.onopen = function(evt) { onOpen(evt) };
-    websocket.onclose = function(evt) { onClose(evt) };
-    websocket.onmessage = function(evt) { onMessage(evt) };
-    websocket.onerror = function(evt) { onError(evt) };
+    // // Assign callbacks
+    // websocket.onopen = function(evt) { onOpen(evt) };
+    // websocket.onclose = function(evt) { onClose(evt) };
+    // websocket.onmessage = function(evt) { onMessage(evt) };
+    // websocket.onerror = function(evt) { onError(evt) };
 }
 
 // Called when a WebSocket connection is established with the server
