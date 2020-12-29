@@ -12,8 +12,10 @@ export const WebSocketProvider = (props) => {
   const settings = useSettings();
 
   const initWebSocket = (ip, port, callback) => {
-    console.log(`Attepting connection to ws://${ip}:${port}/`);
-    ws.current = new WebSocket(`ws://${ip}:${port}/`, 'echo-protocol');
+    // console.log(`Attepting connection to ws://${ip}:${port}/`);
+    // ws.current = new WebSocket(`ws://${ip}:${port}/`, 'echo-protocol');
+    console.log(`Attepting connection to ws://${ip}/ws`);
+    ws.current = new WebSocket(`ws://${ip}/ws`, 'echo-protocol');
 
     ws.current.onopen = () => {
       console.log('WebSocket Connected!');

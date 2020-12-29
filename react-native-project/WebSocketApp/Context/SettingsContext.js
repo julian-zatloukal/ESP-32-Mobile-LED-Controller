@@ -3,7 +3,7 @@ import React, {useState, useEffect, useMemo} from 'react';
 const SettingsContext = React.createContext();
 
 export const SettingsProvider = (props) => {
-  const [ipAddress, setIpAddress] = useState('10.0.2.2');
+  const [ipAddress, setIpAddress] = useState('192.168.4.1');
   const [port, setPort] = useState('8080');
 
   const updateSettings = (bundle) => {
