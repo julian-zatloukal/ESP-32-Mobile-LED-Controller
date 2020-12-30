@@ -41,6 +41,8 @@ bool parseCommand(std::string *buffer, std::string *type, std::vector<uint8_t> *
   return true;
 }
 
+
+
 void handleCommand(std::string *type, std::vector<uint8_t> *params)
 {
   if ((*type) == "SET_LED_BUNDLE")

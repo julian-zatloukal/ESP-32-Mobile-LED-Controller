@@ -17,11 +17,10 @@ const SettingsScreen = ({route, navigation}) => {
   const {getSettings, updateSettings} = useSettings();
 
   const [ipAddress, setIpAddress] = React.useState(getSettings().ipAddress);
-  const [port, setPort] = React.useState(getSettings().port);
 
   useEffect(() => {
-    updateSettings({ipAddress: ipAddress, port: port});
-  }, [updateSettings, ipAddress, port]);
+    updateSettings({ipAddress: ipAddress});
+  }, [updateSettings, ipAddress]);
 
   const navigateToHome = () => {
     navigation.navigate('Home');
@@ -35,8 +34,7 @@ const SettingsScreen = ({route, navigation}) => {
         value={ipAddress}
         setValue={setIpAddress}
       />
-      <SettingModule name={'Port'} value={port} setValue={setPort} />
-      <ConnectButton ip={ipAddress} port={port} />
+      <ConnectButton ip={ipAddress} />
     </View>
   );
 };

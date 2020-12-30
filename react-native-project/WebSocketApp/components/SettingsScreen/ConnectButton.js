@@ -6,8 +6,8 @@ import {useWebSockets} from '../../Context/WebSocketContext';
 import useIsMounted from 'ismounted';
 var Spinner = require('react-native-spinkit');
 
-const ConnectButton = ({ip, port}) => {
-  const {initWebSocket, connectionStatus} = useWebSockets();
+const ConnectButton = ({ip}) => {
+  const {initWebSocket, connectionStatus, closeWebSocket} = useWebSockets();
   const [loading, setLoading] = useState(false);
   const [caption, setCaption] = useState(
     connectionStatus ? 'Connected' : 'Connect',
@@ -26,7 +26,7 @@ const ConnectButton = ({ip, port}) => {
           setLoading(true);
           break;
         case 'connected':
-          setCaption('Connected');
+          setCaption('Disconnect');
           setLoading(false);
           break;
         case 'failed':
@@ -44,14 +44,19 @@ const ConnectButton = ({ip, port}) => {
     <View style={styles.ConnectButtonContainer}>
       <TouchableOpacity
         onPress={() => {
-          displayConnectionState('connecting');
-          initWebSocket(ip, port, (result) => {
-            if (result) {
-              displayConnectionState('connected');
-            } else {
-              displayConnectionState('failed');
-            }
-          });
+          if (!connectionStatus) {
+            displayConnectionState('connecting');
+            initWebSocket(ip, (result) => {
+              if (result) {
+                displayConnectionState('connected');
+              } else {
+                displayConnectionState('failed');
+              }
+            });
+          } else {
+            closeWebSocket();
+            displayConnectionState('connect');
+          }
         }}
         style={styles.subContainer}>
         <Text style={styles.text}>{caption}</Text>

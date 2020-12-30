@@ -13,13 +13,12 @@
 #include <ESPAsyncWebServer.h>
 #include <AsyncTCP.h>
 /* https://github.com/Links2004/arduinoWebSockets */
-#include <WebSocketsServer.h>
 
 
 namespace webSocketServer {
     void initAccessPoint(const char *ssid, const char *password);
     void initServer();
-    void handleData();
+    void loop();
 }
 
 #endif

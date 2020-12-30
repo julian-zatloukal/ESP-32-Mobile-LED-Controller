@@ -4,20 +4,18 @@ const SettingsContext = React.createContext();
 
 export const SettingsProvider = (props) => {
   const [ipAddress, setIpAddress] = useState('192.168.4.1');
-  const [port, setPort] = useState('8080');
 
   const updateSettings = (bundle) => {
     setIpAddress(bundle?.ipAddress);
-    setPort(bundle?.port);
   };
 
   const getSettings = () => {
-    return {ipAddress: ipAddress, port: port};
+    return {ipAddress: ipAddress};
   };
 
   return (
     <SettingsContext.Provider
-      value={{getSettings, updateSettings, ipAddress, port}}
+      value={{getSettings, updateSettings, ipAddress}}
       {...props}
     />
   );

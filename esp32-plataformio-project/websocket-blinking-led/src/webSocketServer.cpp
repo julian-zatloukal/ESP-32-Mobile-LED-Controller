@@ -7,7 +7,7 @@
 
 // Globals
 AsyncWebServer server(HTTP_PORT);
-AsyncWebSocket ws("/ws"); // access at ws://[esp ip]/ws
+AsyncWebSocket ws("/"); // access at ws://[esp ip]/ws
 
 // WebSocketsServer webSocket = WebSocketsServer(WS_PORT);
 
@@ -123,6 +123,15 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
       {
         data[len] = 0;
         Serial.printf("%s\n", (char *)data);
+
+        std::string buffer_str((char *)data);
+        std::vector<uint8_t> parameters;
+        std::string command_type("");
+        bool parsingResult = parseCommand(&buffer_str, &command_type, &parameters);
+        if (parsingResult)
+        {
+          handleCommand(&command_type, &parameters);
+        }
       }
       else
       {
@@ -185,15 +194,6 @@ void notFound(AsyncWebServerRequest *request)
 
 void webSocketServer::initAccessPoint(const char *ssid, const char *password)
 {
-  // // Init access point
-  // WiFi.softAP(ssid, password);
-
-  // // Print the ESP32 IP address
-  // Serial.println();
-  // Serial.println("AP running");
-  // Serial.print("My IP address: ");
-  // Serial.println(WiFi.softAPIP());
-
   WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED)
@@ -207,29 +207,15 @@ void webSocketServer::initAccessPoint(const char *ssid, const char *password)
 
 void webSocketServer::initServer()
 {
-  // server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
-  //   request->send(200, "text/plain", "Connected.");
-  // });
-
-  // server.onNotFound(notFound);
-
   // attach AsyncWebSocket
   ws.onEvent(onEvent);
   server.addHandler(&ws);
 
-  // server.onNotFound(onRequest);
-  // server.onFileUpload(onUpload);
-  // server.onRequestBody(onBody);
-
   // Start web server
   server.begin();
-
-  // Start WebSocket server and assign callback
-  // webSocket.begin();
-  // webSocket.onEvent(onWebSocketEvent);
 }
 
-void webSocketServer::handleData()
+void webSocketServer::loop()
 {
-  // ws.cleanupClients();
+  ws.cleanupClients();
 }

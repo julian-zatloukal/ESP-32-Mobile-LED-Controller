@@ -1,25 +1,23 @@
-import React, {useState, useEffect, useRef, useContext} from 'react';
-import {ToastAndroid} from 'react-native';
-import {useSettings} from './SettingsContext';
+import React, {useState, useEffect, useRef} from 'react';
 
 const WebSocketContext = React.createContext();
 
 export const WebSocketProvider = (props) => {
   const ws = useRef(null);
-  const autoConnectStatus = useRef(false);
-
   const [connectionStatus, setConnectionStatus] = useState(false);
-  const settings = useSettings();
+  const connectionStatusRef = useRef(false);
+  useEffect(() => {
+    connectionStatusRef.current = connectionStatus;
+  }, [connectionStatus]);
 
-  const initWebSocket = (ip, port, callback) => {
-    // console.log(`Attepting connection to ws://${ip}:${port}/`);
-    // ws.current = new WebSocket(`ws://${ip}:${port}/`, 'echo-protocol');
-    console.log(`Attepting connection to ws://${ip}/ws`);
-    ws.current = new WebSocket(`ws://${ip}/ws`, 'echo-protocol');
+  const [ledArray, setLedArray] = useState([1, 1, 1, 1, 1, 1, 1, 1]);
+
+  const initWebSocket = (ip, callback) => {
+    console.log(`Attepting connection to ws://${ip}/`);
+    ws.current = new WebSocket(`ws://${ip}/`);
 
     ws.current.onopen = () => {
       console.log('WebSocket Connected!');
-      ws.current.send('Hello Server!');
       setConnectionStatus(true);
       callback(true);
     };
@@ -42,21 +40,19 @@ export const WebSocketProvider = (props) => {
   const closeWebSocket = () => {
     if (ws.current) {
       ws.current.close();
+      setConnectionStatus(false);
     }
   };
 
-  const [ledArray, setLedArray] = useState([1, 1, 1, 1, 1, 1, 1, 1]);
-
   useEffect(() => {
-    console.log(commands.setLedBundle.compose(ledArray));
-    let command = commands.setLedBundle.compose(ledArray);
-    //sendCommand(command);
-    if (connectionStatus) {
+    let command = commands.current.setLedBundle.compose(ledArray);
+    console.log(command);
+    if (connectionStatusRef.current) {
       ws.current.send(command);
     }
-  }, [ledArray, commands, connectionStatus]);
+  }, [ledArray]);
 
-  const commands = {
+  const commands = useRef({
     setLedBundle: {
       code: 'SET_LED_BUNDLE',
       handle: (values) => {},
@@ -81,15 +77,9 @@ export const WebSocketProvider = (props) => {
       handle: () => {},
       compose: () => {},
     },
-  };
+  });
 
   const commandHandler = (command) => {};
-
-  const sendCommand = (command) => {
-    if (connectionStatus) {
-      ws.current.send(command);
-    }
-  };
 
   return (
     <WebSocketContext.Provider

@@ -7,10 +7,7 @@
 #include "ledModule.h"
 #include "webSocketServer.h"
 
-// Configuration
-// const char *ssid = "ESP32-AP";
-// const char *password = "abc12345";
-
+// WI-FI Configuration 
 const char *ssid = "Tunis1";
 const char *password = "tunistunis";
 
@@ -34,6 +31,5 @@ void setup()
 
 void loop()
 {
-  // Look for and handle WebSocket data
-  webSocketServer::handleData();
+  webSocketServer::loop();
 }
