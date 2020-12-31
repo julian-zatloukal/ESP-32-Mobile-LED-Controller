@@ -55,7 +55,9 @@ export const WebSocketProvider = (props) => {
   const commands = useRef({
     setLedBundle: {
       code: 'SET_LED_BUNDLE',
-      handle: (values) => {},
+      handle: (values) => {
+        console.log('Handling set led bundle');
+      },
       compose: (values) => {
         return `SET_LED_BUNDLE[${values.join('][')}]`;
       },
@@ -79,7 +81,15 @@ export const WebSocketProvider = (props) => {
     },
   });
 
-  const commandHandler = (command) => {};
+  const commandHandler = (textData) => {
+    var commandCode = textData.substring(0, textData.indexOf('['));
+    console.log(`Command code ${commandCode}`);
+    Object.keys(commands.current).forEach((command) => {
+      if (commands.current[command].code.includes(commandCode)) {
+        commands.current[command].handle();
+      }
+    });
+  };
 
   return (
     <WebSocketContext.Provider

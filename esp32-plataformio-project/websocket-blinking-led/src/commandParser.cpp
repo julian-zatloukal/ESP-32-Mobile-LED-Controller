@@ -3,7 +3,6 @@
 
 
 std::vector<std::string> commands = {"SET_LED_BUNDLE", "GET_LED_BUNDLE"};
-uint8_t ledArrayState[8] = {0};
 
 bool parseCommand(std::string *buffer, std::string *type, std::vector<uint8_t> *params)
 {
@@ -41,7 +40,19 @@ bool parseCommand(std::string *buffer, std::string *type, std::vector<uint8_t> *
   return true;
 }
 
+bool composeCommand(std::string *buffer, std::string *type, std::vector<uint8_t> *parameters){
+  (*buffer) += (*type);
 
+  for (int i = 0; i < (*parameters).size(); i++) {
+    (*buffer) += "[";
+    char aux[4];
+    sprintf(aux, "%d", (*parameters)[i]);
+    (*buffer) += aux;
+    (*buffer) += "]";
+  }
+
+  return true;
+}
 
 void handleCommand(std::string *type, std::vector<uint8_t> *params)
 {
@@ -61,12 +72,10 @@ void setLedBundleHandler(std::vector<uint8_t> *params)
   {
     if ((*params)[i] == 0)
     {
-      ledArrayState[i] = 0;
       ledModule::setLED(i, 0); 
     }
     else
     {
-      ledArrayState[i] = 1;
       ledModule::setLED(i, 1); 
     }
   }
@@ -74,21 +83,21 @@ void setLedBundleHandler(std::vector<uint8_t> *params)
 
 void getLedBundleHandler()
 {
-  std::string buffer;
-  buffer += "SET_LED_BUNDLE";
-  for (int i = 0; i < 8; i++)
-  {
-    buffer += "[";
-    if (ledArrayState[i])
-    {
-      buffer += "1";
-    }
-    else
-    {
-      buffer += "0";
-    }
-    buffer += "]";
-  }
+  // std::string buffer;
+  // buffer += "SET_LED_BUNDLE";
+  // for (int i = 0; i < 8; i++)
+  // {
+  //   buffer += "[";
+  //   if (ledArrayState[i])
+  //   {
+  //     buffer += "1";
+  //   }
+  //   else
+  //   {
+  //     buffer += "0";
+  //   }
+  //   buffer += "]";
+  // }
 
   /* send buffer through WebSocket */
 }

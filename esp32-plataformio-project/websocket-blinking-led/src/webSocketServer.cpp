@@ -1,5 +1,6 @@
 #include "webSocketServer.h"
 #include "commandParser.h"
+#include "ledModule.h"
 
 #define DNS_PORT 53
 #define HTTP_PORT 80
@@ -9,81 +10,6 @@
 AsyncWebServer server(HTTP_PORT);
 AsyncWebSocket ws("/"); // access at ws://[esp ip]/ws
 
-// WebSocketsServer webSocket = WebSocketsServer(WS_PORT);
-
-// Callback: receiving any WebSocket message
-// void onWebSocketEvent(uint8_t client_num,
-//                       WStype_t type,
-//                       uint8_t *payload,
-//                       size_t length)
-// {
-
-//     // Figure out the type of WebSocket event
-//     switch (type)
-//     {
-
-//     // Client has disconnected
-//     case WStype_DISCONNECTED:
-//         Serial.printf("[%u] Disconnected!\n", client_num);
-//         break;
-
-//     // New client has connected
-//     case WStype_CONNECTED:
-//     {
-//         IPAddress ip = webSocket.remoteIP(client_num);
-//         Serial.printf("[%u] Connection from ", client_num);
-//         Serial.println(ip.toString());
-//     }
-//     break;
-
-//     // Handle text messages from client
-//     case WStype_TEXT:
-//     {
-
-//         // Print out raw message
-//         Serial.printf("[%u] Received text: %s\n", client_num, payload);
-
-//         std::string buffer_str((char *)payload);
-
-//         std::vector<uint8_t> parameters;
-//         std::string command_type("");
-
-//         bool parsingResult = parseCommand(&buffer_str, &command_type, &parameters);
-//         if (parsingResult)
-//         {
-//             handleCommand(&command_type, &parameters);
-//         }
-//     }
-
-//     break;
-
-//     // For everything else: do nothing
-//     case WStype_BIN:
-//     case WStype_ERROR:
-//     case WStype_FRAGMENT_TEXT_START:
-//     case WStype_FRAGMENT_BIN_START:
-//     case WStype_FRAGMENT:
-//     case WStype_FRAGMENT_FIN:
-//     default:
-//         break;
-//     }
-// }
-
-void onRequest(AsyncWebServerRequest *request)
-{
-  //Handle Unknown Request
-  request->send(404);
-}
-
-void onBody(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total)
-{
-  //Handle body
-}
-
-void onUpload(AsyncWebServerRequest *request, String filename, size_t index, uint8_t *data, size_t len, bool final)
-{
-  //Handle upload
-}
 
 void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len)
 {
@@ -93,8 +19,21 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
   {
     //client connected
     Serial.printf("ws[%s][%u] connect\n", server->url(), client->id());
-    client->printf("Hello Client %u :)", client->id());
     client->ping();
+
+    std::string buffer("");
+    std::string command_type("SET_LED_BUNDLE");
+    std::vector<uint8_t> parameters;
+    uint8_t* ledState = ledModule::getLedStateArray();
+
+    for (int i = 0; i < 8; i++) {
+      parameters.push_back(ledState[i]);
+    }
+
+    composeCommand(&buffer, &command_type, &parameters);
+    
+    client->text(buffer.c_str());
+
   }
   else if (type == WS_EVT_DISCONNECT)
   {
@@ -185,11 +124,6 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
       }
     }
   }
-}
-
-void notFound(AsyncWebServerRequest *request)
-{
-  request->send(404, "text/plain", "Not found");
 }
 
 void webSocketServer::initAccessPoint(const char *ssid, const char *password)

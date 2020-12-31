@@ -13,11 +13,12 @@
 
 // Constructor object (GPIO STB , GPIO CLOCK , GPIO DIO, use high freq MCU)
 
-class ledModule{
-    public:
-        static void init();
-        static void setLED(uint8_t position, uint8_t value);
-
+class ledModule
+{
+public:
+    static void init();
+    static void setLED(uint8_t position, uint8_t value);
+    static uint8_t *getLedStateArray();
 };
 
-#endif 
+#endif
