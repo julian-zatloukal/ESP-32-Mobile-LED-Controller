@@ -1,5 +1,5 @@
-import React, {useRef, useEffect, useState} from 'react';
-import {StyleSheet, View, Text, StatusBar, ToastAndroid} from 'react-native';
+import React, {useEffect} from 'react';
+import {StatusBar} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, StatusBar, useEffect} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import HomeButton from './HomeButton';
 
 const Header = ({title, navigateToHome}) => {

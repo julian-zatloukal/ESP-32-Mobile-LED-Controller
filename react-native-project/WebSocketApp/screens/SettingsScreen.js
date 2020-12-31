@@ -1,11 +1,8 @@
 import React, {useEffect} from 'react';
 import {StyleSheet, View, StatusBar} from 'react-native';
-import {useFocusEffect} from '@react-navigation/native';
-
 import Header from '../components/SettingsScreen/Header';
 import SettingModule from '../components/SettingsScreen/SettingModule';
 import ConnectButton from '../components/SettingsScreen/ConnectButton';
-
 import {useSettings} from '../Context/SettingsContext';
 
 const SettingsScreen = ({route, navigation}) => {

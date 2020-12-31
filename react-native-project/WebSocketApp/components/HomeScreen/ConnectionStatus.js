@@ -5,7 +5,7 @@ import {useSettings} from '../../Context/SettingsContext';
 import {useWebSockets} from '../../Context/WebSocketContext';
 
 const ConnectionStatus = () => {
-  const {getSettings, updateSettings} = useSettings();
+  const {getSettings} = useSettings();
   const {connectionStatus} = useWebSockets();
   return (
     <View style={styles.infoContainer}>

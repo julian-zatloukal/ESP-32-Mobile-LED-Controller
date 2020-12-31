@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  useEffect,
-} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCogs} from '@fortawesome/free-solid-svg-icons';
 

@@ -56,28 +56,18 @@ export const WebSocketProvider = (props) => {
     setLedBundle: {
       code: 'SET_LED_BUNDLE',
       handle: (values) => {
-        console.log('Handling set led bundle');
+        console.log(
+          `Handling set led bundle. Values ${JSON.stringify(values)}`,
+        );
+
+        if (values.length === 8) {
+          const valuesInt = values.map((x) => Number.parseInt(x, 10));
+          setLedArray(valuesInt);
+        }
       },
       compose: (values) => {
         return `SET_LED_BUNDLE[${values.join('][')}]`;
       },
-    },
-    setLed: {
-      code: 'SET_LED',
-      handle: () => {},
-      compose: (ledIndex) => {
-        return `SET_LED[${ledIndex}]`;
-      },
-    },
-    getLed: {
-      code: 'GET_LED',
-      handle: () => {},
-      compose: () => {},
-    },
-    getLedBundle: {
-      code: 'GET_LED_BUNDLE',
-      handle: () => {},
-      compose: () => {},
     },
   });
 
@@ -86,7 +76,11 @@ export const WebSocketProvider = (props) => {
     console.log(`Command code ${commandCode}`);
     Object.keys(commands.current).forEach((command) => {
       if (commands.current[command].code.includes(commandCode)) {
-        commands.current[command].handle();
+        var regExp = /\[([^[]+)\]/g;
+        let paramsList = (textData.match(regExp) || []).map((e) =>
+          e.replace(regExp, '$1'),
+        );
+        commands.current[command].handle(paramsList);
       }
     });
   };

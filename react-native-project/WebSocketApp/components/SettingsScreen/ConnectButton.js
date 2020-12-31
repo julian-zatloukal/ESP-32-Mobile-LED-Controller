@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
 import {StyleSheet, TouchableOpacity, Text, View} from 'react-native';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faHome} from '@fortawesome/free-solid-svg-icons';
 import {useWebSockets} from '../../Context/WebSocketContext';
 import useIsMounted from 'ismounted';
 var Spinner = require('react-native-spinkit');
@@ -10,7 +8,7 @@ const ConnectButton = ({ip}) => {
   const {initWebSocket, connectionStatus, closeWebSocket} = useWebSockets();
   const [loading, setLoading] = useState(false);
   const [caption, setCaption] = useState(
-    connectionStatus ? 'Connected' : 'Connect',
+    connectionStatus ? 'Disconnect' : 'Connect',
   );
   const isMounted = useIsMounted();
 
