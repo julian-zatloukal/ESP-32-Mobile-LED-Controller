@@ -27,6 +27,13 @@ $ git clone https://github.com/julian-zatloukal/ESP-32-Mobile-LED-Controller.git
 ### Setting up the environment
 First make sure you have a proper environment to build the application. The project was originally developed on Linux 5.8 Ubuntu 20.10 (Groovy Gorilla) using the official React Native CLI and React Native 0.63.3. Check the [React Native CLI Quickstart](https://reactnative.dev/docs/environment-setup) guide for Android to ensure all dependencies are met.
 
+Then, install npm and yarn dependencies.
+```sh
+$ cd app
+$ npm install
+$ yarn
+```
+
 ### Start the metro server and build the Android application
 Start metro server (here you can see the debug logs)
 ```sh
@@ -40,6 +47,14 @@ $ npx react-native run-android
 ## Build the embedded program
 ### Setting up the environment
 The embedded program has been built using Platformio with the espressif32 platform. It’s recommended using the PlatformIO for VSCode or the PlatformIO Core (CLI) to build the project.
+
+Before uploading the program update the WI-FI credentials inside `embedded/src/main.cpp`
+
+```cpp
+// WI-FI Configuration 
+const char *ssid = "your_ssid";
+const char *password = "your_password";
+```
 ### Using PlatformIO for VSCode
 1. Install the official VSCode extension.
 2. Open a terminal inside the folder
