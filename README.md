@@ -6,8 +6,8 @@ The data flow between the ESP32 (embedded system) and the mobile application rel
 ## Screenshots
 
 <p align="center">
-  <img src="documentation/screenshots/home.png" alt="Home screenshot" width="275"/>
-  <img src="documentation/screenshots/settings.png" alt="Settings screenshot" width="275" />
+  <img src="documentation/images/home.png" alt="Home screenshot" width="275"/>
+  <img src="documentation/images/settings.png" alt="Settings screenshot" width="275" />
 </p>
 
 ## Getting the project
