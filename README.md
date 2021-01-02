@@ -3,12 +3,19 @@ Demo project showcasing the usage of various technologies like ESP32, React Nati
 
 The data flow between the ESP32 (embedded system) and the mobile application relies, at the physical layer, on a WI-FI connection and, at the application layer, on a WebSocket connection.
 
-## Screenshots
+## Images
 
+### Mobile Application
 <p align="center">
   <img src="documentation/images/home.png" alt="Home screenshot" width="275"/>
   <img src="documentation/images/settings.png" alt="Settings screenshot" width="275" />
 </p>
+
+### Block diagram
+<p align="center">
+  <img src="documentation/images/block_diagram.svg" alt="Block diagram" width="725"/>
+</p>
+
 
 ## Getting the project
 Clone the git project using
